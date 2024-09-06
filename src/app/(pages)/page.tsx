@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <main className="flex flex-col items-center justify-between p-24">
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet porro
           mollitia dolorum assumenda quaerat, ex debitis iure doloribus velit
