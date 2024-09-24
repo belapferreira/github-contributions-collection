@@ -7,10 +7,12 @@ export default function Home() {
       <Header />
 
       <main className="flex items-center justify-center py-10">
-        <div className="mx-5 flex w-full max-w-content-w flex-col gap-5">
-          <h2 className="text-xl font-semibold">Contributions</h2>
+        <div className="mx-5 flex w-full max-w-content-w flex-col items-center">
+          <div className="space-y-6">
+            <h2 className="text-xl font-semibold">Contributions</h2>
 
-          <Heatmap />
+            <Heatmap />
+          </div>
         </div>
       </main>
     </>
