@@ -1,29 +1,115 @@
-import { WEEK_LABELS } from '@/constants';
+'use client';
+
+import { ContributionDay } from '@/@types/contributions';
+import {
+  AVERAGE_SCALE_PERCENTAGE,
+  DAYS_PER_WEEK,
+  WEEK_LABELS,
+} from '@/constants';
+import { cn } from '@/utils/cn';
 import { generateArray } from '@/utils/generate-array';
-import { add, format, sub } from 'date-fns';
+import * as Tooltip from '@radix-ui/react-tooltip';
+import { add, format, isBefore, sub } from 'date-fns';
 import { Minus, Plus } from 'lucide-react';
+import { useCallback, useMemo } from 'react';
 
-export const Heatmap = () => {
-  const now = new Date();
+type HeatmapProps = {
+  contributions: ContributionDay[];
+  totalDays: number;
+  startDate: Date;
+};
 
-  const currentDate = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate()
+export const HeatmapComponent = ({
+  contributions,
+  totalDays,
+  startDate,
+}: HeatmapProps) => {
+  const cells = generateArray(totalDays);
+  const weekDays = generateArray(DAYS_PER_WEEK);
+  const weeks = generateArray(Math.ceil(totalDays / DAYS_PER_WEEK));
+
+  const average = useMemo(() => {
+    return (
+      contributions.reduce(
+        (acc, { contributionCount: count }) => acc + Number(count),
+        0
+      ) / contributions.length || 1
+    );
+  }, [contributions]);
+
+  const cellClass = useCallback(
+    (value: number) => {
+      if (!value) {
+        return undefined;
+      }
+
+      const scalePercentage =
+        (value * AVERAGE_SCALE_PERCENTAGE) / average / 100;
+
+      let className;
+
+      switch (true) {
+        case scalePercentage > 1:
+          className = `border-blue-dark/80 bg-blue-light`;
+          break;
+        case scalePercentage >= 0.8:
+          className = `border-blue-light/80 bg-blue-mid/90`;
+          break;
+        case scalePercentage > 0.4:
+          className = `border-blue-mid/70 bg-blue-mid/60`;
+          break;
+        case scalePercentage > 0:
+          className = `border-blue-mid/40 bg-blue-mid/30`;
+          break;
+        default:
+          className = `bg-gray-900 border-gray-700`;
+          break;
+      }
+
+      return className;
+    },
+    [average]
   );
 
-  const dayOfWeek = currentDate ? Number(format(currentDate, 'i')) + 1 : 1; // +1 because it starts on Monday
+  const Cell = ({ index }: { index: number }) => {
+    const cellData = contributions[index - 1];
 
-  const totalDays = 52 * 7 + dayOfWeek; // 52 completed weeks + amount of days in the current week (~1 year)
-  const daysPerWeek = 7;
+    const value = cellData?.contributionCount || 0;
+    const date = cellData?.date.split('-').reverse().join('/');
 
-  const startDate = sub(currentDate, {
-    days: totalDays,
-  });
+    const className = cellClass(value);
 
-  const cells = generateArray(totalDays);
-  const weekDays = generateArray(daysPerWeek);
-  const weeks = generateArray(Math.ceil(totalDays / daysPerWeek));
+    const tooltipContent = useMemo(() => {
+      return value <= 1
+        ? `${value} atividade ${date && `em ${date}`}`
+        : `${value} atividades ${date && `em ${date}`}`;
+    }, [date, value]);
+
+    return (
+      <Tooltip.Root delayDuration={0}>
+        <Tooltip.Trigger>
+          <div
+            className={cn(
+              'size-3 flex-shrink-0 rounded-sm border border-gray-700',
+              className
+            )}
+          />
+        </Tooltip.Trigger>
+
+        <Tooltip.Content
+          className={cn(
+            'flex flex-col items-center gap-3 px-4 py-3',
+            'text-center text-sm leading-[140%] text-gray-100',
+            'z-tooltip select-none rounded-md bg-gray-950 shadow-[4px_16px_24px_0px_rgba(0,0,0,0.25)]'
+          )}
+        >
+          <Tooltip.Arrow className="fill-gray-950" />
+
+          {tooltipContent}
+        </Tooltip.Content>
+      </Tooltip.Root>
+    );
+  };
 
   const Month = ({ startDate, index }: { startDate: Date; index: number }) => {
     const prevMonthName = format(
@@ -63,10 +149,7 @@ export const Heatmap = () => {
         <div className="flex cursor-move flex-col items-start gap-3 overflow-x-auto overflow-y-hidden lg:cursor-default lg:overflow-hidden">
           <div className="grid max-w-fit grid-flow-col grid-rows-7 gap-1">
             {cells.map((cell) => (
-              <div
-                key={`cell-${cell}`}
-                className="size-3 flex-shrink-0 rounded-sm border border-gray-700"
-              />
+              <Cell key={`cell-${cell}`} index={cell} />
             ))}
           </div>
 
@@ -88,5 +171,13 @@ export const Heatmap = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+export const Heatmap = (props: HeatmapProps) => {
+  return (
+    <Tooltip.Provider disableHoverableContent>
+      <HeatmapComponent {...props} />
+    </Tooltip.Provider>
   );
 };

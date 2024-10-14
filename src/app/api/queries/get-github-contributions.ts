@@ -1,7 +1,12 @@
+import { Contributions } from '@/@types/contributions';
+
 const GRAPHQL_API_URL = process.env.GITHUB_GRAPHQL_API_URL;
 const TOKEN = process.env.GITHUB_TOKEN;
 
-export const getGithubContributions = async (userName: string) => {
+export const getGithubContributions = async (
+  username: string,
+  from: string
+) => {
   try {
     const headers = {
       'content-type': 'application/json',
@@ -10,10 +15,10 @@ export const getGithubContributions = async (userName: string) => {
 
     const body = {
       query: `
-      query($userName:String!) { 
-        user(login: $userName){
+      query($username:String!, $from:DateTime!) { 
+        user(login: $username){
           name
-          contributionsCollection {
+          contributionsCollection(from: $from) {
             contributionCalendar {
               totalContributions
               weeks {
@@ -28,7 +33,8 @@ export const getGithubContributions = async (userName: string) => {
       }
     `,
       variables: {
-        userName,
+        username,
+        from,
       },
     };
 
@@ -40,13 +46,13 @@ export const getGithubContributions = async (userName: string) => {
 
     if (GRAPHQL_API_URL) {
       const response = await fetch(GRAPHQL_API_URL, options);
-      const contributions = await response.json();
+      const contributions: Contributions = await response.json();
 
-      return contributions;
+      return contributions.data;
     }
 
     throw new Error('There was an error requesting the contributions');
   } catch (error) {
-    console.log('🚫 Contributions:', error);
+    console.log('🚫 Contributions query:', error);
   }
 };

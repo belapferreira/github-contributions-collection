@@ -1,18 +1,11 @@
 'use client';
 
 import { cn } from '@/utils/cn';
-import { Heatmap } from './Heatmap';
 import { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-type SearchProps = {
-  contributions: unknown;
-};
-
-export const Search = ({ contributions }: SearchProps) => {
+export const Search = () => {
   const [username, setUsername] = useState('');
-
-  console.log('contributions', contributions);
 
   const router = useRouter();
 
@@ -53,25 +46,6 @@ export const Search = ({ contributions }: SearchProps) => {
         >
           Search
         </button>
-      </div>
-
-      <div className="space-y-3">
-        <h2 className="font-semibold text-blue-mid">
-          {contributions?.data?.user?.name}
-        </h2>
-
-        {contributions.data.user ? (
-          <Heatmap />
-        ) : (
-          <div className="w-full space-y-3 pt-10 text-center text-gray-300">
-            <p>There was a problem fetching the contributions.</p>
-
-            <p>
-              Please check if the <strong>username</strong> is correct and try
-              again.
-            </p>
-          </div>
-        )}
       </div>
     </>
   );
