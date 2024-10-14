@@ -30,6 +30,7 @@ const config: Config = {
         mid: '#4a80e5',
         dark: '#3e6bbf',
       },
+      white: '#ffffff',
     },
   },
   plugins: [],

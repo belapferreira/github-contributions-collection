@@ -1,4 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  env: {
+    GITHUB_GRAPHQL_API_URL: process.env.GITHUB_GRAPHQL_API_URL,
+    GITHUB_TOKEN: process.env.GITHUB_TOKEN,
+  },
+};
 
 export default nextConfig;
