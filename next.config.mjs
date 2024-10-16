@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   env: {
-    GRAPHQL_GITHUB_API_URL: process.env.GRAPHQL_GITHUB_API_URL,
-    TOKEN_GITHUB: process.env.TOKEN_GITHUB,
+    NEXT_PUBLIC_GITHUB_GRAPHQL_API_URL:
+      process.env.NEXT_PUBLIC_GITHUB_GRAPHQL_API_URL,
+    NEXT_PUBLIC_GITHUB_TOKEN: process.env.NEXT_PUBLIC_GITHUB_TOKEN,
   },
 };
 

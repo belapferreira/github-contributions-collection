@@ -29,8 +29,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      GRAPHQL_GITHUB_API_URL: ${{ secrets.GRAPHQL_GITHUB_API_URL }}
-      TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
+      NEXT_PUBLIC_GITHUB_GRAPHQL_API_URL: ${{ secrets.NEXT_PUBLIC_GITHUB_GRAPHQL_API_URL }}
+      NEXT_PUBLIC_GITHUB_TOKEN: ${{ secrets.NEXT_PUBLIC_GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
