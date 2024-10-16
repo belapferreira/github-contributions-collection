@@ -1,4 +1,4 @@
-import { ContributionDay, UserContributions } from '@/@types/contributions';
+import { ContributionDay, UserContributions } from '~/@types/contributions';
 
 export const mountDayContributions = (contributions: UserContributions) => {
   const weeks =

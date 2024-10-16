@@ -1,14 +1,12 @@
-import { ReactNode } from 'react';
 import { getGithubContributions } from '@/api/queries/get-github-contributions';
 import { Search } from '@/components/Search';
 import { notFound } from 'next/navigation';
 import { mountDayContributions } from '@/utils/mount-day-contributions';
-import { UserContributions } from '@/@types/contributions';
+import { UserContributions } from '~/@types/contributions';
 import { Heatmap } from '@/components/Heatmap';
 import { format, sub } from 'date-fns';
 
 type Props = {
-  children: ReactNode;
   params: {
     username: string;
   };

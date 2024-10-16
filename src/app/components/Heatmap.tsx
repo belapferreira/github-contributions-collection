@@ -1,6 +1,6 @@
 'use client';
 
-import { ContributionDay } from '@/@types/contributions';
+import { ContributionDay } from '~/@types/contributions';
 import {
   AVERAGE_SCALE_PERCENTAGE,
   DAYS_PER_WEEK,
