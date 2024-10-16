@@ -12,6 +12,12 @@ type Props = {
   };
 };
 
+export async function generateStaticParams() {
+  const usernames = ['belapferreira'];
+
+  return usernames;
+}
+
 export default async function Home(props: Props) {
   try {
     const username = props.params.username;
