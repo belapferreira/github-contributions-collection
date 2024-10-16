@@ -13,7 +13,7 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  const usernames = ['belapferreira'];
+  const usernames = [{ username: 'belapferreira' }];
 
   return usernames;
 }
