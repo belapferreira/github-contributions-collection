@@ -1,7 +1,7 @@
 import { Contributions } from '@/@types/contributions';
 
-const GRAPHQL_API_URL = process.env.GITHUB_GRAPHQL_API_URL;
-const TOKEN = process.env.GITHUB_TOKEN;
+const GRAPHQL_API_URL = process.env.GRAPHQL_GITHUB_API_URL;
+const TOKEN = process.env.TOKEN_GITHUB;
 
 export const getGithubContributions = async (
   username: string,
