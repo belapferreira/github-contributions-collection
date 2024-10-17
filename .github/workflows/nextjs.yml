@@ -27,6 +27,9 @@ concurrency:
 jobs:
   # Build job
   build:
+    env:
+      NEXT_PUBLIC_GITHUB_GRAPHQL_API_URL: ${{ secrets.NEXT_PUBLIC_GITHUB_GRAPHQL_API_URL }}
+      NEXT_PUBLIC_GITHUB_TOKEN: ${{ secrets.NEXT_PUBLIC_GITHUB_TOKEN }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -74,9 +77,6 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
-        env:
-          NEXT_PUBLIC_GITHUB_GRAPHQL_API_URL: ${{ secrets.NEXT_PUBLIC_GITHUB_GRAPHQL_API_URL }}
-          NEXT_PUBLIC_GITHUB_TOKEN: ${{ secrets.NEXT_PUBLIC_GITHUB_TOKEN }}
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
