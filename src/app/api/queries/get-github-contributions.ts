@@ -53,6 +53,7 @@ export const getGithubContributions = async (
 
     throw new Error('There was an error requesting the contributions');
   } catch (error) {
+    console.log('GRAPHQL_API_URL', GRAPHQL_API_URL);
     console.log('🚫 Contributions query:', error);
   }
 };
