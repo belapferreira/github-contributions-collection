@@ -27,6 +27,9 @@ concurrency:
 jobs:
   # Build job
   build:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     env:
       NEXT_PUBLIC_GITHUB_GRAPHQL_API_URL: ${{ secrets.NEXT_PUBLIC_GITHUB_GRAPHQL_API_URL }}
       NEXT_PUBLIC_GITHUB_TOKEN: ${{ secrets.NEXT_PUBLIC_GITHUB_TOKEN }}
