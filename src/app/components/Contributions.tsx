@@ -3,10 +3,10 @@
 import { cn } from '@/utils/cn';
 import { useCallback, useState } from 'react';
 import { LoaderCircle, SearchIcon } from 'lucide-react';
-import { updateGithubContributions } from '@/actions';
 import { UserContributions } from '~/@types/contributions';
 import { mountDayContributions } from '@/utils/mount-day-contributions';
 import { Heatmap } from './Heatmap';
+import { getGithubContributions } from '@/api/queries/get-github-contributions';
 
 type ContrinutionsProps = {
   userContributions?: UserContributions;
@@ -32,7 +32,7 @@ export const Contributions = ({
       try {
         setIsLoading(true);
 
-        const response = await updateGithubContributions(
+        const response = await getGithubContributions(
           username,
           from.toISOString()
         );
