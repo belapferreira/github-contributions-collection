@@ -26,7 +26,7 @@ export default async function Home(props: Props) {
 
   const dayOfWeek = currentDate ? Number(format(currentDate, 'i')) + 1 : 1; // +1 because it starts on Monday
 
-  const totalDays = 52 * 7 + dayOfWeek; // 52 completed weeks + amount of days in the current week (~1 year)
+  const totalDays = 51 * 7 + dayOfWeek; // 51 completed weeks + amount of days in the current week (~1 year)
 
   const from = sub(currentDate, {
     days: totalDays,
