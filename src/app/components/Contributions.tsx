@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/utils/cn';
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { LoaderCircle, SearchIcon } from 'lucide-react';
 import { UserContributions } from '~/@types/contributions';
 import { mountDayContributions } from '@/utils/mount-day-contributions';
@@ -23,6 +23,8 @@ export const Contributions = ({
   const [isLoading, setIsLoading] = useState(false);
   const [contributions, setContributions] = useState(userContributions);
 
+  const notFoundUsername = useRef('');
+
   const dayContributions = mountDayContributions(
     contributions as UserContributions
   );
@@ -39,7 +41,9 @@ export const Contributions = ({
 
         setContributions(response?.user as UserContributions);
 
-        if (response?.user) {
+        if (!response?.user) {
+          notFoundUsername.current = username;
+        } else {
           setUsername('');
         }
       } catch (error) {
@@ -115,15 +119,23 @@ export const Contributions = ({
           />
         ) : (
           <div className="w-full space-y-3 pt-10 text-center text-gray-300">
-            <p>
-              There was a problem fetching the contributions to this user:{' '}
-              <strong>{username}</strong>.
-            </p>
+            {!!username ? (
+              <>
+                <p>
+                  There was a problem fetching the contributions to this user:{' '}
+                  <strong>{notFoundUsername.current}</strong>.
+                </p>
 
-            <p>
-              Please check if the <strong>username</strong> is correct and try
-              again.
-            </p>
+                <p>
+                  Please check if the <strong>username</strong> is correct and
+                  try again.
+                </p>
+              </>
+            ) : (
+              <p>
+                Insert a <strong>username</strong> to see their contributions.
+              </p>
+            )}
           </div>
         )}
       </div>
