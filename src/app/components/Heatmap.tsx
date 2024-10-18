@@ -17,12 +17,14 @@ type HeatmapProps = {
   contributions: ContributionDay[];
   totalDays: number;
   startDate: Date;
+  isLoading?: boolean;
 };
 
 export const HeatmapComponent = ({
   contributions,
   totalDays,
   startDate,
+  isLoading,
 }: HeatmapProps) => {
   const cells = generateArray(totalDays);
   const weekDays = generateArray(DAYS_PER_WEEK);
@@ -89,8 +91,10 @@ export const HeatmapComponent = ({
       <Tooltip.Root delayDuration={0}>
         <Tooltip.Trigger>
           <div
+            data-loading={isLoading}
             className={cn(
               'size-3 flex-shrink-0 rounded-sm border border-gray-700',
+              'data-[loading="true"]:animate-pulse data-[loading="true"]:border-gray-700 data-[loading="true"]:bg-gray-700',
               className
             )}
           />
