@@ -132,42 +132,48 @@ export const HeatmapComponent = ({
   };
 
   return (
-    <div className="flex w-full justify-center gap-3">
-      {/* Weekdays*/}
-      <div className="flex flex-col">
-        {weekDays.map((day) => (
-          <span
-            key={`weekday-${day}`}
-            className="my-[0.3px] text-center text-[0.625rem] text-gray-300"
-          >
-            {WEEK_LABELS[day - 1]}
-          </span>
-        ))}
-      </div>
-
-      <div className="relative h-full min-h-[9.5rem]">
-        <div className="flex cursor-move flex-col items-start gap-3 overflow-x-auto overflow-y-hidden lg:cursor-default lg:overflow-hidden">
-          <div className="grid max-w-fit grid-flow-col grid-rows-7 gap-1">
-            {cells.map((cell) => (
-              <Cell key={`cell-${cell}`} index={cell} />
-            ))}
-          </div>
-
-          <div className="mb-3 flex w-full gap-1">
-            {weeks.map((week) => (
-              <Month key={`month-${week}`} startDate={startDate} index={week} />
-            ))}
-          </div>
+    <div className="relative flex min-h-[9.5rem] w-full justify-center">
+      <div className="absolute flex w-full justify-start gap-3">
+        {/* Weekdays*/}
+        <div className="flex flex-col">
+          {weekDays.map((day) => (
+            <span
+              key={`weekday-${day}`}
+              className="my-[0.3px] text-center text-[0.625rem] text-gray-300"
+            >
+              {WEEK_LABELS[day - 1]}
+            </span>
+          ))}
         </div>
 
-        <div className="mt-3 flex w-full items-center justify-end gap-1">
-          <Minus size={16} className="text-gray-200" />
-          <div className="h-3 w-3 rounded-sm border border-gray-700 bg-gray-900" />
-          <div className="h-3 w-3 rounded-sm border border-blue-mid/40 bg-blue-mid/30" />
-          <div className="h-3 w-3 rounded-sm border border-blue-mid/70 bg-blue-mid/60" />
-          <div className="h-3 w-3 rounded-sm border border-blue-light/80 bg-blue-mid/90" />
-          <div className="h-3 w-3 rounded-sm border border-blue-dark/80 bg-blue-light" />
-          <Plus size={16} className="text-gray-200" />
+        <div className="relative flex h-full w-[calc(100%-1.25rem)] flex-col">
+          <div className="flex w-full cursor-move flex-col items-start gap-3 overflow-x-auto overflow-y-hidden lg:cursor-default lg:overflow-hidden">
+            <div className="grid max-w-fit grid-flow-col grid-rows-7 gap-1">
+              {cells.map((cell) => (
+                <Cell key={`cell-${cell}`} index={cell} />
+              ))}
+            </div>
+
+            <div className="mb-3 flex w-full gap-1">
+              {weeks.map((week) => (
+                <Month
+                  key={`month-${week}`}
+                  startDate={startDate}
+                  index={week}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-3 flex w-full items-center justify-end gap-1">
+            <Minus size={16} className="text-gray-200" />
+            <div className="h-3 w-3 rounded-sm border border-gray-700 bg-gray-900" />
+            <div className="h-3 w-3 rounded-sm border border-blue-mid/40 bg-blue-mid/30" />
+            <div className="h-3 w-3 rounded-sm border border-blue-mid/70 bg-blue-mid/60" />
+            <div className="h-3 w-3 rounded-sm border border-blue-light/80 bg-blue-mid/90" />
+            <div className="h-3 w-3 rounded-sm border border-blue-dark/80 bg-blue-light" />
+            <Plus size={16} className="text-gray-200" />
+          </div>
         </div>
       </div>
     </div>
