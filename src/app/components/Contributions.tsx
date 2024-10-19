@@ -7,6 +7,7 @@ import { UserContributions } from '~/@types/contributions';
 import { mountDayContributions } from '@/utils/mount-day-contributions';
 import { Heatmap } from './Heatmap';
 import { getGithubContributions } from '@/api/queries/get-github-contributions';
+import { Search } from './Search';
 
 type ContrinutionsProps = {
   userContributions?: UserContributions;
@@ -19,7 +20,6 @@ export const Contributions = ({
   totalDays,
   from,
 }: ContrinutionsProps) => {
-  const [username, setUsername] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [contributions, setContributions] = useState(userContributions);
 
@@ -43,8 +43,6 @@ export const Contributions = ({
 
         if (!response?.user) {
           notFoundUsername.current = username;
-        } else {
-          setUsername('');
         }
       } catch (error) {
       } finally {
@@ -56,70 +54,31 @@ export const Contributions = ({
 
   return (
     <>
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-
-          handleSearch(username);
-        }}
-        className="flex w-full items-center justify-between gap-5 md:gap-10"
-      >
-        <div
-          className={cn(
-            'flex h-10 w-full items-center justify-center gap-2 rounded-md px-4 py-2',
-            'border border-gray-700 focus-within:border-blue-mid',
-            'transition-colors duration-200'
-          )}
-        >
-          <input
-            type="text"
-            placeholder="Insert username"
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-            className={cn(
-              'h-full w-full text-sm text-gray-100 outline-none transition-colors duration-200',
-              'placeholder:text-sm placeholder:text-gray-300'
-            )}
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={isLoading}
-          className={cn(
-            'flex h-10 items-center justify-center rounded-md bg-blue-mid px-3 font-semibold text-white sm:w-32',
-            'transition-colors duration-200 enabled:hover:bg-blue-dark'
-          )}
-        >
-          {isLoading ? (
-            <LoaderCircle className="animate-spin" />
-          ) : (
-            <>
-              <span className="text-sm tracking-wide max-sm:hidden">
-                Search
-              </span>
-
-              <SearchIcon size={18} className="sm:hidden" />
-            </>
-          )}
-        </button>
-      </form>
+      <Search handleSearch={handleSearch} isLoading={isLoading} />
 
       <h2 className="mr-auto mt-2 text-lg font-semibold text-blue-mid">
-        {contributions?.name}
+        {isLoading ? (
+          <span className="inline-flex h-4 w-44 animate-pulse rounded-sm bg-gray-700" />
+        ) : (
+          contributions?.name
+        )}
       </h2>
 
       <div className="flex w-full flex-col gap-4">
         {contributions ? (
-          <Heatmap
-            startDate={from}
-            totalDays={totalDays}
-            isLoading={isLoading}
-            contributions={dayContributions}
-          />
+          <>
+            <Heatmap
+              startDate={from}
+              totalDays={totalDays}
+              isLoading={isLoading}
+              contributions={dayContributions}
+            />
+
+            <span />
+          </>
         ) : (
           <div className="w-full space-y-3 pt-10 text-center text-gray-300">
-            {!!username ? (
+            {!!notFoundUsername.current ? (
               <>
                 <p>
                   There was a problem fetching the contributions to this user:{' '}
@@ -133,7 +92,8 @@ export const Contributions = ({
               </>
             ) : (
               <p>
-                Insert a <strong>username</strong> to see their contributions.
+                Insert a valid <strong>username</strong> to see their
+                contributions.
               </p>
             )}
           </div>
