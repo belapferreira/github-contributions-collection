@@ -38,11 +38,11 @@
 
 ### :pushpin: Context
 
-At the end of 2020, during one of the first hiring processes I participated in, the challenge was developing a kind of clone of the GitHub contributions heatmap. I made it, but using a library, and the idea was to develop it from scratch. And guess what: I didn't move forward in the process 😅.
+At the end of 2020, during one of the first hiring processes I participated in, the challenge was developing a kind of clone of the GitHub contributions heatmap. I made it, using a library, and the idea was to create it from scratch. And guess what: I didn't move forward in the process 😅.
 
-Earlier this year (2024), I was assigned to implement many components in a profile page and one of the components was a heatmap. This time, as I improved my skills, I could build it from scratch.
+Earlier this year (2024), I was assigned to implement the components of a profile page, one of which was a heatmap. This time, as I improved my skills, I could build it from scratch.
 
-And I just wanted to reply part of it here as a way to say to my self of the past: you are doing great and never stop learning! 🍀💙
+And I just wanted to reproduce part of that here as a way to say to my past self thank you for keeping going and to my current, and fortunately to my future self, never stop learning! 🍀💙
 
 
 ### :gear: Settings
