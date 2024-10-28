@@ -45,7 +45,12 @@ export const getGithubContributions = async (
     };
 
     if (GRAPHQL_API_URL) {
-      const response = await fetch(GRAPHQL_API_URL, options);
+      const response = await fetch(GRAPHQL_API_URL, {
+        next: {
+          revalidate: 60 * 10, // 10 minutes
+        },
+        ...options,
+      });
       const contributions: Contributions = await response.json();
 
       return contributions.data;
