@@ -3,6 +3,8 @@ import { format, sub } from 'date-fns';
 import { Header } from '@/components/Header';
 import { Contributions } from './components/Contributions';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const defaultUsername = 'belapferreira';
 
